@@ -1,6 +1,6 @@
 # Regex Spider
 
-Finds page content by regular expression recursively on all page.
+Finds page content by regular expression recursively on all pages of specific site.
 
 You specify:
 1. start URL to begin crawling from it 
