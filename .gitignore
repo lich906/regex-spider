@@ -1,0 +1,8 @@
+# JetBrains IDE configuration
+.idea
+
+# Composer dependenices
+vendor/
+
+# Application artifacts
+requests.log
