@@ -28,5 +28,5 @@ composer install
 
 Script which prints data in csv format (requires `docker`):
 ```bash
-./getcsv.sh URL REGEX
+./run_spider.sh URL REGEX
 ```
