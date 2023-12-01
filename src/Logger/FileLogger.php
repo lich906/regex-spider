@@ -19,4 +19,9 @@ class FileLogger implements LoggerInterface
         $logStr = sprintf("[%s] %s\n", date('Y-m-d H:i:s'), $msg);
         file_put_contents($this->filePath, $logStr, FILE_APPEND);
     }
+
+    public function clear(): void
+    {
+        file_put_contents($this->filePath, '');
+    }
 }

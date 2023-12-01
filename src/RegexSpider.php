@@ -29,6 +29,7 @@ class RegexSpider
      */
     public function RegexSearch(string $url, string $regex): array
     {
+        $this->logger->clear();
         $searchResults = [];
 
         try
