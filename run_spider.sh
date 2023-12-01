@@ -8,7 +8,7 @@ readonly USER_ID=$(id -u)
 
 if [[ -z $1 || -z $2 ]]; then
   echo "Specify URL and regular expression to search."
-  echo "Syntax: ./run.sh url regex"
+  echo "Syntax: $0 url regex"
   exit 1
 fi
 

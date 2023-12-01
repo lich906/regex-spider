@@ -5,7 +5,6 @@ namespace App;
 use App\Crawler\Crawler;
 use App\Logger\LoggerInterface;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 
 class RegexSpider
 {
@@ -34,7 +33,7 @@ class RegexSpider
 
         try
         {
-            foreach ($this->crawler->CrawlRecursively($url, true) as $crawlResult)
+            foreach ($this->crawler->Crawl($url, true) as $crawlResult)
             {
                 $url = htmlspecialchars_decode(($crawlResult->getUrl()));
                 $this->logger->log($crawlResult->getStatus() . ' ' . $crawlResult->getUrl());

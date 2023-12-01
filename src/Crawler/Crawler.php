@@ -2,6 +2,7 @@
 
 namespace App\Crawler;
 
+use App\Utils\LinkUtils;
 use App\Utils\UniqueLinksQueue;
 use Generator;
 use GuzzleHttp\Client;
@@ -39,7 +40,7 @@ class Crawler
      * @throws NotLoadedException
      * @throws StrictException
      */
-    public function CrawlRecursively(string $url, bool $sameHost): Generator
+    public function Crawl(string $url, bool $sameHost): Generator
     {
         $host = parse_url($url, PHP_URL_HOST);
         $scheme = parse_url($url, PHP_URL_SCHEME);
@@ -72,11 +73,9 @@ class Crawler
      * @throws GuzzleException
      * @throws LogicalException
      */
-    public function CrawlOne(string $url, bool $sameHost): CrawlResult
+    private function CrawlOne(string $url, bool $sameHost): CrawlResult
     {
         $response = $this->client->get($url);
-        // TODO: handle 30x redirects
-        // if ($response->getStatusCode() === 301)
         $body = $response->getBody();
 
         $document = new Dom();
@@ -85,9 +84,7 @@ class Crawler
         $crawlableLinks = $this->findCrawlableLinksInDOM($document, $sameHost);
         $this->linksToCrawl->pushMany($crawlableLinks);
 
-        $referer = $response->getHeader('referer')[0] ?? null;
-
-        return new CrawlResult($url, $response->getStatusCode(), $document, $referer);
+        return new CrawlResult($url, $response->getStatusCode(), $document);
     }
 
     private function isSchemeSupported(string $scheme): bool
@@ -118,7 +115,7 @@ class Crawler
             if ($this->isLinkCrawlable($link, $sameHost))
             {
                 $this->makeLinkAbsolute($link);
-                $crawlableLinks[] = $link;
+                $crawlableLinks[] = LinkUtils::removeAnchor($link);
             }
         }
 
